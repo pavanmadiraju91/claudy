@@ -1,0 +1,434 @@
+/**
+ * Action Prompts - RPG Choice Menu Style
+ * Like selecting options in a game dialog
+ */
+
+.action-prompt {
+  padding: 14px 16px;
+  margin: 8px 0;
+  background: var(--cream);
+  border: var(--pixel-border-thick) var(--brown-dark);
+  animation: pixelSlideIn 0.2s ease;
+  /* Pixel panel depth */
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    4px 4px 0 rgba(0,0,0,0.2);
+}
+
+/* Permission variant - yellow/warning style */
+.action-prompt.permission {
+  background: var(--brown-pale);
+  border-color: var(--brown-dark);
+}
+
+/* Plan execute variant - green/success style */
+.action-prompt.plan-execute {
+  background: var(--green-light);
+  border-color: var(--green-dark);
+  box-shadow:
+    inset -2px -2px 0 var(--green-medium),
+    inset 2px 2px 0 rgba(255,255,255,0.4),
+    4px 4px 0 rgba(0,0,0,0.2);
+}
+
+.action-prompt-text {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--text-dark);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+.action-prompt.plan-execute .action-prompt-text {
+  color: var(--green-dark);
+}
+
+/* Button container */
+.action-prompt-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Plan options - vertical layout */
+.action-prompt-buttons.plan-options {
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Base button style - pixel RPG button */
+.action-btn {
+  padding: 10px 16px;
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  border: var(--pixel-border) var(--brown-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Primary button - brown wood style */
+.action-btn-primary {
+  background: var(--brown-medium);
+  color: var(--white);
+  border-color: var(--brown-dark);
+  box-shadow:
+    inset -2px -2px 0 var(--brown-dark),
+    inset 2px 2px 0 var(--brown-light),
+    2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.action-btn-primary:hover {
+  background: var(--brown-light);
+}
+
+.action-btn-primary:active {
+  box-shadow:
+    inset 2px 2px 0 var(--brown-dark),
+    inset -2px -2px 0 var(--brown-light);
+  transform: translate(1px, 1px);
+}
+
+/* Secondary button - cream style */
+.action-btn-secondary {
+  background: var(--cream);
+  color: var(--text-dark);
+  border-color: var(--border-panel);
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    2px 2px 0 rgba(0,0,0,0.15);
+}
+
+.action-btn-secondary:hover {
+  background: var(--cream-light);
+}
+
+.action-btn-secondary:active {
+  box-shadow:
+    inset 2px 2px 0 var(--cream-dark),
+    inset -2px -2px 0 var(--white);
+  transform: translate(1px, 1px);
+}
+
+/* Tertiary button - subtle */
+.action-btn-tertiary {
+  background: var(--gray-pale);
+  color: var(--text-medium);
+  border-color: var(--gray-medium);
+  box-shadow:
+    inset -2px -2px 0 var(--gray-light),
+    inset 2px 2px 0 var(--white),
+    2px 2px 0 rgba(0,0,0,0.1);
+}
+
+.action-btn-tertiary:hover {
+  background: var(--gray-light);
+  color: var(--text-dark);
+}
+
+/* Cancel button - muted */
+.action-btn-cancel {
+  background: var(--cream-dark);
+  color: var(--text-light);
+  border-color: var(--border-panel);
+  box-shadow:
+    inset -1px -1px 0 var(--gray-light),
+    inset 1px 1px 0 var(--white);
+}
+
+.action-btn-cancel:hover {
+  background: var(--cream);
+  color: var(--text-medium);
+}
+
+/* Plan execute buttons - full width */
+.action-prompt.plan-execute .action-btn {
+  padding: 12px 14px;
+  text-align: left;
+  width: 100%;
+  font-size: 7px;
+}
+
+/* Green primary for plan execute */
+.action-prompt.plan-execute .action-btn-primary {
+  background: var(--green-medium);
+  border-color: var(--green-dark);
+  box-shadow:
+    inset -2px -2px 0 var(--green-dark),
+    inset 2px 2px 0 var(--green-light),
+    2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.action-prompt.plan-execute .action-btn-primary:hover {
+  background: var(--green-dark);
+}
+
+/* Permission buttons - warning colors */
+.action-prompt.permission .action-btn-primary {
+  background: var(--brown-light);
+  border-color: var(--brown-dark);
+}
+
+.action-prompt.permission .action-btn-primary:hover {
+  background: var(--brown-medium);
+  color: var(--white);
+}
+
+/* Ask User Question variant */
+.action-prompt.ask-user {
+  background: var(--cream-light);
+  border-color: var(--blue-dark);
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    4px 4px 0 rgba(0,0,0,0.2);
+}
+
+.action-prompt-header {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--blue-medium);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.action-prompt.ask-user .action-prompt-text {
+  color: var(--text-dark);
+  font-size: 9px;
+  margin-bottom: 12px;
+}
+
+.action-prompt-buttons.ask-options {
+  flex-direction: column;
+  gap: 6px;
+}
+
+.action-btn-option {
+  background: var(--white);
+  color: var(--text-dark);
+  border-color: var(--border-panel);
+  text-align: left;
+  width: 100%;
+  padding: 10px 14px;
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    2px 2px 0 rgba(0,0,0,0.1);
+}
+
+.action-btn-option:hover {
+  background: var(--blue-light);
+  border-color: var(--blue-medium);
+}
+
+/* CLI-added options - slightly subdued to distinguish from transcript options */
+.action-btn-cli-option {
+  background: var(--gray-pale);
+  color: var(--text-medium);
+  border-color: var(--gray-light);
+}
+
+.action-btn-cli-option:hover {
+  background: var(--gray-light);
+  color: var(--text-dark);
+  border-color: var(--gray-medium);
+}
+
+/* AskUserQuestion Submit Confirmation */
+.action-prompt.ask-user-submit {
+  background: var(--green-light);
+  border-color: var(--green-dark);
+  box-shadow:
+    inset -2px -2px 0 var(--green-medium),
+    inset 2px 2px 0 rgba(255,255,255,0.4),
+    4px 4px 0 rgba(0,0,0,0.2);
+}
+
+.action-prompt.ask-user-submit .action-prompt-header {
+  color: var(--green-dark);
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.action-prompt.ask-user-submit .action-prompt-text {
+  color: var(--green-dark);
+}
+
+.action-prompt.ask-user-submit .action-btn-primary {
+  background: var(--green-medium);
+  border-color: var(--green-dark);
+  box-shadow:
+    inset -2px -2px 0 var(--green-dark),
+    inset 2px 2px 0 var(--green-light),
+    2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.action-prompt.ask-user-submit .action-btn-primary:hover {
+  background: var(--green-dark);
+}
+
+/* Question Progress Indicator */
+.ask-user-progress {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border-panel);
+}
+
+.progress-step {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  padding: 4px 8px;
+  background: var(--gray-pale);
+  color: var(--text-light);
+  border: 2px solid var(--gray-light);
+}
+
+.progress-step.active {
+  background: var(--blue-light);
+  color: var(--blue-dark);
+  border-color: var(--blue-medium);
+}
+
+.progress-step.completed {
+  background: var(--green-light);
+  color: var(--green-dark);
+  border-color: var(--green-medium);
+}
+
+.progress-step.completed::before {
+  content: "✓ ";
+}
+
+/* Option with description - vertical layout */
+.action-btn-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.option-label {
+  font-weight: 500;
+}
+
+.option-desc {
+  font-size: 6px;
+  color: var(--text-light);
+  margin-top: 2px;
+  font-weight: normal;
+  line-height: 1.4;
+}
+
+/* Selected option (matches PTY cursor position) */
+.action-btn-option.selected {
+  background: var(--blue-light);
+  border-color: var(--blue-medium);
+  box-shadow:
+    inset -2px -2px 0 var(--blue-medium),
+    inset 2px 2px 0 rgba(255,255,255,0.4),
+    2px 2px 0 rgba(0,0,0,0.15);
+}
+
+/* Multi-step wizard - requires Terminal */
+.action-prompt.ask-user-terminal {
+  background: var(--brown-pale);
+  border-color: var(--brown-dark);
+  border-left: 4px solid var(--brown-medium);
+  padding: 16px;
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    4px 4px 0 rgba(0,0,0,0.2);
+}
+
+.action-prompt.ask-user-terminal .action-prompt-icon {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: var(--brown-dark);
+}
+
+.action-prompt.ask-user-terminal .keyboard-icon {
+  font-family: var(--font-pixel);
+}
+
+.action-prompt.ask-user-terminal .action-prompt-text {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--brown-dark);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.action-prompt.ask-user-terminal .action-prompt-hint {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--text-medium);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.action-prompt.ask-user-terminal .action-prompt-hint strong {
+  color: var(--brown-dark);
+}
+
+/* Trust folder prompt - workspace security check */
+.action-prompt.trust-folder {
+  background: var(--brown-pale);
+  border-color: var(--brown-dark);
+  border-left: 4px solid var(--brown-medium);
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    4px 4px 0 rgba(0,0,0,0.2);
+}
+
+.action-prompt.trust-folder .action-prompt-icon {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.action-prompt.trust-folder .action-prompt-header {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--brown-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.action-prompt.trust-folder .action-prompt-text {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.action-prompt.trust-folder .action-prompt-hint {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--text-medium);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.action-prompt.trust-folder .action-btn-primary {
+  background: var(--green-medium);
+  border-color: var(--green-dark);
+  box-shadow:
+    inset -2px -2px 0 var(--green-dark),
+    inset 2px 2px 0 var(--green-light),
+    2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.action-prompt.trust-folder .action-btn-primary:hover {
+  background: var(--green-dark);
+}

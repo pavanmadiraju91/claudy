@@ -1,0 +1,372 @@
+/**
+ * Splash Screen - RPG Title Screen Style
+ * Like a cozy game loading screen
+ */
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--teal-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+  /* Subtle tile pattern like game floor */
+  background-image:
+    linear-gradient(45deg, rgba(0,0,0,0.05) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(0,0,0,0.05) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.05) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.05) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+}
+
+/* Decorative border frame like a game window */
+.splash-screen::before {
+  content: '';
+  position: absolute;
+  inset: 16px;
+  border: var(--pixel-border-thick) var(--brown-dark);
+  box-shadow:
+    inset 0 0 0 3px var(--brown-medium),
+    inset 0 0 0 6px var(--brown-light);
+  pointer-events: none;
+}
+
+/* Main content container */
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  z-index: 2;
+}
+
+/* Logo container */
+.splash-logo-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Warm glow behind logo */
+.splash-logo-glow {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(212, 176, 122, 0.4) 0%,
+    rgba(184, 137, 92, 0.2) 40%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  animation: warmPulse 2s ease-in-out infinite;
+}
+
+@keyframes warmPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Main logo text */
+.splash-logo {
+  font-family: var(--font-pixel);
+  font-size: 42px;
+  color: var(--cream);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-shadow:
+    3px 3px 0 var(--brown-dark),
+    -1px -1px 0 var(--brown-light);
+  animation: logoAppear 0.3s ease;
+}
+
+@keyframes logoAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.logo-bracket {
+  color: var(--brown-medium);
+}
+
+.logo-text {
+  color: var(--cream-light);
+  letter-spacing: 6px;
+}
+
+.splash-subtitle {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--teal-light);
+  letter-spacing: 3px;
+  margin-top: 12px;
+  text-transform: uppercase;
+}
+
+/* Boot terminal - RPG text box style */
+.splash-terminal {
+  background: var(--cream);
+  border: var(--pixel-border-thick) var(--brown-dark);
+  padding: 16px 20px;
+  min-width: 320px;
+  font-family: var(--font-mono);
+  /* Pixel panel depth */
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    4px 4px 0 rgba(0,0,0,0.3);
+}
+
+.boot-line {
+  font-size: 10px;
+  color: var(--text-medium);
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.15s ease;
+}
+
+.boot-line.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.boot-line.active .boot-text {
+  color: var(--brown-dark);
+  font-weight: 500;
+}
+
+.boot-line.visible:last-child .boot-text {
+  color: var(--green-dark);
+}
+
+.boot-cursor {
+  color: var(--brown-medium);
+  opacity: 0;
+  transition: opacity 0.1s;
+  animation: pixelBlink 0.6s steps(1) infinite;
+}
+
+.boot-cursor.visible {
+  opacity: 1;
+}
+
+.boot-check {
+  color: var(--green-medium);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Loading bar - pixel progress bar */
+.splash-loader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.loader-track {
+  width: 200px;
+  height: 16px;
+  background: var(--cream-dark);
+  border: var(--pixel-border) var(--brown-dark);
+  position: relative;
+  overflow: hidden;
+  /* Inset effect */
+  box-shadow: inset 2px 2px 0 rgba(0,0,0,0.15);
+}
+
+.loader-fill {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  background: var(--brown-medium);
+  transition: width 0.2s ease;
+  /* Striped pattern */
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(255,255,255,0.2) 4px,
+    rgba(255,255,255,0.2) 8px
+  );
+}
+
+/* Segmented look */
+.loader-segments {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+}
+
+.loader-segment {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.loader-percent {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--cream);
+  min-width: 40px;
+  text-align: right;
+  text-shadow: 1px 1px 0 var(--teal-dark);
+}
+
+/* Corner decorations - wooden frame corners */
+.splash-corner {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+}
+
+.splash-corner::before,
+.splash-corner::after {
+  content: '';
+  position: absolute;
+  background: var(--brown-medium);
+}
+
+.splash-corner-tl {
+  top: 24px;
+  left: 24px;
+}
+.splash-corner-tl::before {
+  width: 100%;
+  height: 6px;
+  top: 0;
+  left: 0;
+}
+.splash-corner-tl::after {
+  width: 6px;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.splash-corner-tr {
+  top: 24px;
+  right: 24px;
+}
+.splash-corner-tr::before {
+  width: 100%;
+  height: 6px;
+  top: 0;
+  right: 0;
+}
+.splash-corner-tr::after {
+  width: 6px;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+
+.splash-corner-bl {
+  bottom: 24px;
+  left: 24px;
+}
+.splash-corner-bl::before {
+  width: 100%;
+  height: 6px;
+  bottom: 0;
+  left: 0;
+}
+.splash-corner-bl::after {
+  width: 6px;
+  height: 100%;
+  bottom: 0;
+  left: 0;
+}
+
+.splash-corner-br {
+  bottom: 24px;
+  right: 24px;
+}
+.splash-corner-br::before {
+  width: 100%;
+  height: 6px;
+  bottom: 0;
+  right: 0;
+}
+.splash-corner-br::after {
+  width: 6px;
+  height: 100%;
+  bottom: 0;
+  right: 0;
+}
+
+/* Floating particles - warm dust motes */
+.splash-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  bottom: -10px;
+  width: 4px;
+  height: 4px;
+  background: var(--brown-light);
+  opacity: 0.4;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-100vh) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Hide scanlines and vignette - not needed for warm style */
+.splash-scanlines,
+.splash-vignette,
+.splash-grid {
+  display: none;
+}
+
+/* Fade out animation */
+.splash-screen.fade-out {
+  animation: splashFadeOut 0.4s steps(8) forwards;
+}
+
+@keyframes splashFadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}

@@ -1,0 +1,156 @@
+/**
+ * Terminal - 16-bit Office RPG Style
+ * xterm.js with pixel art aesthetics
+ */
+
+/* ================================
+   xterm.js Container - Pixel Frame
+   ================================ */
+#terminal {
+  background: #3E5553 !important;
+  margin: 12px;
+  border: var(--pixel-border-thick) var(--brown-dark);
+  /* Pixel panel depth */
+  box-shadow:
+    inset -2px -2px 0 var(--teal-medium),
+    inset 2px 2px 0 rgba(0,0,0,0.3),
+    4px 4px 0 rgba(0,0,0,0.3);
+}
+
+/* Force xterm background color */
+.xterm,
+.xterm-viewport,
+.xterm-screen {
+  background: #3E5553 !important;
+}
+
+/* Override xterm.js viewport */
+.xterm {
+  padding: 8px;
+}
+
+.xterm-viewport {
+  overflow-y: auto !important;
+}
+
+.xterm-viewport::-webkit-scrollbar {
+  width: 12px;
+  background: var(--teal-dark);
+}
+
+.xterm-viewport::-webkit-scrollbar-thumb {
+  background: var(--brown-medium);
+  border: 2px solid var(--brown-dark);
+}
+
+.xterm-viewport::-webkit-scrollbar-thumb:hover {
+  background: var(--brown-light);
+}
+
+/* Cursor styling - pixel block */
+.xterm .xterm-cursor-layer {
+  z-index: 3;
+}
+
+/* Selection styling - warm highlight */
+.xterm .xterm-selection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.xterm .xterm-selection div {
+  position: absolute;
+  background-color: rgba(184, 137, 92, 0.3) !important;
+}
+
+/* ================================
+   ANSI Color Classes - Warm Palette
+   ================================ */
+.ansi-black { color: #3E5553; }
+.ansi-red { color: #B85878; }
+.ansi-green { color: #58B868; }
+.ansi-yellow { color: #D4B07A; }
+.ansi-blue { color: #6B8EB8; }
+.ansi-magenta { color: #A878B8; }
+.ansi-cyan { color: #78B8B8; }
+.ansi-white { color: #E8E0D0; }
+
+.ansi-bright-black { color: #5B7B7B; }
+.ansi-bright-red { color: #D88898; }
+.ansi-bright-green { color: #88D8A8; }
+.ansi-bright-yellow { color: #E8C898; }
+.ansi-bright-blue { color: #8EB0D0; }
+.ansi-bright-magenta { color: #C8A0D0; }
+.ansi-bright-cyan { color: #A8D8D8; }
+.ansi-bright-white { color: #FAFAF8; }
+
+.ansi-bold { font-weight: 600; }
+.ansi-italic { font-style: italic; }
+.ansi-underline { text-decoration: underline; }
+
+/* ================================
+   Terminal Focus States
+   ================================ */
+#terminal:focus-within {
+  outline: none;
+  border-color: var(--blue-medium);
+  box-shadow:
+    inset -2px -2px 0 var(--teal-medium),
+    inset 2px 2px 0 rgba(0,0,0,0.3),
+    4px 4px 0 rgba(0,0,0,0.3),
+    0 0 0 3px rgba(107, 142, 184, 0.3);
+}
+
+/* Dimmed cursor when not focused */
+.xterm:not(.focus) .xterm-cursor-layer {
+  opacity: 0.5;
+}
+
+/* ================================
+   Link Styling (WebLinks addon)
+   ================================ */
+.xterm-underline {
+  text-decoration: underline;
+}
+
+.xterm a {
+  color: var(--blue-bright);
+  text-decoration: none;
+}
+
+.xterm a:hover {
+  text-decoration: underline;
+  color: var(--blue-light);
+}
+
+/* ================================
+   Search Decorations
+   ================================ */
+.xterm .xterm-decoration-overview-ruler {
+  right: 2px;
+  width: 4px;
+  pointer-events: none;
+}
+
+.xterm .xterm-find-result-decoration {
+  background-color: rgba(212, 176, 122, 0.3);
+  box-shadow: inset 0 0 0 1px var(--brown-light);
+}
+
+.xterm .xterm-find-active-result-decoration {
+  background-color: rgba(88, 184, 104, 0.4);
+  box-shadow: inset 0 0 0 1px var(--green-medium);
+}
+
+/* ================================
+   Terminal Responsive
+   ================================ */
+@media (max-width: 600px) {
+  #terminal {
+    margin: 8px;
+  }
+}

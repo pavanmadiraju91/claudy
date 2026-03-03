@@ -1,0 +1,37 @@
+/**
+ * RPG View - 16-bit Office Style
+ * Split view with game and chat panel
+ */
+
+.rpg-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  background: #1a1a1a;
+  position: relative;
+}
+
+.rpg-game-area {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a1a;
+  position: relative;
+}
+
+.rpg-chat-area {
+  width: 550px;
+  min-width: 440px;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  border-left: var(--pixel-border-thick) var(--brown-dark);
+  /* Pixel panel depth */
+  box-shadow:
+    inset 2px 0 0 var(--cream-light),
+    inset -2px 0 0 var(--cream-dark);
+}

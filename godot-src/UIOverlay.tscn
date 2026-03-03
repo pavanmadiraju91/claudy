@@ -1,0 +1,166 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2gui5ovlay42"]
+
+[ext_resource type="Script" path="res://UIOverlay.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dpb7y2m0h5rki" path="res://assets/ui/UI_Flat_Frame01a.png" id="2_frame"]
+[ext_resource type="Texture2D" uid="uid://bqk3yj0xlxpht" path="res://assets/ui/UI_Flat_Banner01a.png" id="3_banner"]
+
+[node name="UIOverlay" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_script")
+
+[node name="DialogueBox" type="NinePatchRect" parent="."]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -120.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("2_frame")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogueBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogueBox/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DialogueText" type="RichTextLabel" parent="DialogueBox/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "Sample dialogue text..."
+fit_content = true
+
+[node name="ChoicesContainer" type="HBoxContainer" parent="DialogueBox/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Choice1" type="Button" parent="DialogueBox/MarginContainer/VBoxContainer/ChoicesContainer"]
+custom_minimum_size = Vector2(100, 24)
+layout_mode = 2
+text = "Yes"
+
+[node name="Choice2" type="Button" parent="DialogueBox/MarginContainer/VBoxContainer/ChoicesContainer"]
+custom_minimum_size = Vector2(100, 24)
+layout_mode = 2
+text = "No"
+
+[node name="Choice3" type="Button" parent="DialogueBox/MarginContainer/VBoxContainer/ChoicesContainer"]
+custom_minimum_size = Vector2(100, 24)
+layout_mode = 2
+text = "Cancel"
+
+[node name="ProgressPanel" type="Control" parent="."]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 8.0
+offset_right = 100.0
+offset_bottom = 32.0
+grow_horizontal = 2
+
+[node name="ProgressBg" type="ColorRect" parent="ProgressPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.3, 0.9)
+
+[node name="ProgressFill" type="ColorRect" parent="ProgressPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(0, 12)
+color = Color(0.3, 0.7, 0.4, 1)
+
+[node name="ProgressLabel" type="Label" parent="ProgressPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Planning... 0%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusBubble" type="NinePatchRect" parent="."]
+visible = false
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 200.0
+offset_bottom = 140.0
+texture = ExtResource("3_banner")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="StatusText" type="Label" parent="StatusBubble"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.15, 0.15, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 0.3)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 10
+text = "..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ActionToast" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 36.0
+grow_horizontal = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ActionToast"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ToastIcon" type="TextureRect" parent="ActionToast/HBoxContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+stretch_mode = 5
+
+[node name="ToastLabel" type="Label" parent="ActionToast/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reading file.gd"
+

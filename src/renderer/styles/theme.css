@@ -1,0 +1,121 @@
+/**
+ * Emu Theme - 16-bit Office RPG Style
+ * Additional theme utilities and overrides
+ * Main design tokens are in main.css
+ */
+
+/* ================================
+   Utility Classes
+   ================================ */
+
+/* Text utilities */
+.text-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.5px;
+}
+
+.text-mono {
+  font-family: var(--font-mono);
+}
+
+/* Pixel panel utilities */
+.pixel-panel {
+  background: var(--cream);
+  border: var(--pixel-border) var(--brown-dark);
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    3px 3px 0 rgba(0,0,0,0.2);
+}
+
+.pixel-panel-dark {
+  background: var(--teal-dark);
+  border: var(--pixel-border) var(--brown-dark);
+  box-shadow:
+    inset -2px -2px 0 var(--teal-medium),
+    inset 2px 2px 0 rgba(0,0,0,0.3),
+    3px 3px 0 rgba(0,0,0,0.3);
+}
+
+/* Pixel button utilities */
+.pixel-btn {
+  padding: 8px 14px;
+  background: var(--cream);
+  border: var(--pixel-border) var(--brown-dark);
+  color: var(--text-dark);
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    2px 2px 0 rgba(0,0,0,0.15);
+}
+
+.pixel-btn:hover {
+  background: var(--cream-light);
+}
+
+.pixel-btn:active {
+  box-shadow:
+    inset 2px 2px 0 var(--cream-dark),
+    inset -2px -2px 0 var(--white);
+  transform: translate(1px, 1px);
+}
+
+.pixel-btn-primary {
+  background: var(--brown-medium);
+  color: var(--white);
+  box-shadow:
+    inset -2px -2px 0 var(--brown-dark),
+    inset 2px 2px 0 var(--brown-light),
+    2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.pixel-btn-primary:hover {
+  background: var(--brown-light);
+}
+
+/* ================================
+   Scrollbar Styling
+   ================================ */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream-dark);
+  border: 1px solid var(--border-panel);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brown-medium);
+  border: 2px solid var(--brown-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brown-light);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--cream-dark);
+}
+
+/* ================================
+   Focus States
+   ================================ */
+:focus-visible {
+  outline: 2px solid var(--blue-medium);
+  outline-offset: 2px;
+}
+
+/* ================================
+   Selection
+   ================================ */
+::selection {
+  background: rgba(184, 137, 92, 0.3);
+  color: var(--text-dark);
+}

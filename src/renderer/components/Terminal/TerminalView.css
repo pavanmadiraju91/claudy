@@ -1,0 +1,47 @@
+/**
+ * Terminal View - 16-bit RPG Style
+ * Main terminal container with pixel frame
+ */
+
+.terminal-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0D0D0F;
+}
+
+.terminal-container {
+  flex: 1;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Ensure xterm fills the container */
+.terminal-container .xterm {
+  height: 100%;
+}
+
+.terminal-container .xterm-viewport {
+  overflow-y: auto !important;
+}
+
+/* Custom scrollbar - pixel style */
+.terminal-container .xterm-viewport::-webkit-scrollbar {
+  width: 12px;
+  background: #1a1a1a;
+}
+
+.terminal-container .xterm-viewport::-webkit-scrollbar-track {
+  background: #2a2a2a;
+  border: 1px solid #1a1a1a;
+}
+
+.terminal-container .xterm-viewport::-webkit-scrollbar-thumb {
+  background: var(--brown-medium);
+  border: 2px solid var(--brown-dark);
+}
+
+.terminal-container .xterm-viewport::-webkit-scrollbar-thumb:hover {
+  background: var(--brown-light);
+}

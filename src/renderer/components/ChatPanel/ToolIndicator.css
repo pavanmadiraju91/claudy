@@ -1,0 +1,44 @@
+/**
+ * Tool Indicator - 16-bit RPG Style
+ * Pixel-art activity indicator
+ */
+
+.tool-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--brown-pale);
+  border: var(--pixel-border) var(--brown-dark);
+  /* Pixel panel depth */
+  box-shadow:
+    inset -2px -2px 0 var(--brown-light),
+    inset 2px 2px 0 rgba(255,255,255,0.3);
+}
+
+.tool-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--brown-medium);
+  border: 1px solid var(--brown-dark);
+  animation: pixelPulse 0.8s steps(4) infinite;
+}
+
+@keyframes pixelPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.25);
+  }
+}
+
+.tool-name {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--brown-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

@@ -1,0 +1,235 @@
+/**
+ * Emu - 16-bit Office RPG Theme
+ * Cozy pixel-art aesthetic inspired by the Office Tileset
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ================================
+   CSS Custom Properties (Design Tokens)
+   ================================ */
+:root {
+  /* === Tileset Color Palette === */
+
+  /* Teal/Sage Greens (floors, backgrounds) */
+  --teal-dark: #3E5553;
+  --teal-medium: #5B7B7B;
+  --teal-light: #8AB8B8;
+  --teal-pale: #A8C8C8;
+
+  /* Warm Browns (wood, furniture, accents) */
+  --brown-dark: #7A4A3A;
+  --brown-medium: #B8895C;
+  --brown-light: #D4B07A;
+  --brown-pale: #E8C898;
+
+  /* Creams & Whites (walls, panels) */
+  --cream: #E8E0D0;
+  --cream-light: #F0E8E0;
+  --cream-dark: #D8D0C0;
+  --white: #FAFAF8;
+  --off-white: #F5F0E8;
+
+  /* Blues (accents, monitors, info) */
+  --blue-dark: #5878A8;
+  --blue-medium: #6B8EB8;
+  --blue-light: #8EB0D0;
+  --blue-bright: #78C8F0;
+
+  /* Greens (success, plan mode) */
+  --green-dark: #48A868;
+  --green-medium: #58B868;
+  --green-light: #88D8A8;
+
+  /* Reds (errors, warnings) */
+  --red-dark: #983860;
+  --red-medium: #B85878;
+  --red-light: #D88898;
+
+  /* Grays */
+  --gray-dark: #606878;
+  --gray-medium: #8890A0;
+  --gray-light: #B0B8C0;
+  --gray-pale: #D0D8E0;
+
+  /* === Semantic Tokens === */
+
+  /* Backgrounds */
+  --bg-app: #3E5553;
+  --bg-panel: #E8E0D0;
+  --bg-panel-alt: #D8D0C0;
+  --bg-input: #F5F0E8;
+  --bg-input-focus: #FAFAF8;
+  --bg-hover: rgba(184, 137, 92, 0.2);
+  --bg-active: rgba(184, 137, 92, 0.3);
+
+  /* Text */
+  --text-dark: #3E5553;
+  --text-medium: #5B7B7B;
+  --text-light: #8890A0;
+  --text-on-dark: #E8E0D0;
+  --text-on-brown: #FAFAF8;
+
+  /* Borders - pixel style */
+  --border-dark: #7A4A3A;
+  --border-medium: #B8895C;
+  --border-light: #D4B07A;
+  --border-panel: #C8B8A0;
+
+  /* Interactive */
+  --accent-primary: #B8895C;
+  --accent-hover: #D4B07A;
+  --accent-active: #7A4A3A;
+  --accent-success: #58B868;
+  --accent-info: #6B8EB8;
+  --accent-warning: #D4B07A;
+  --accent-error: #B85878;
+
+  /* === Typography === */
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* === Pixel Art Styling === */
+  --pixel-border: 2px solid;
+  --pixel-border-thick: 3px solid;
+  --pixel-shadow: 3px 3px 0px rgba(62, 85, 83, 0.4);
+  --pixel-shadow-inset: inset 2px 2px 0px rgba(255, 255, 255, 0.3), inset -2px -2px 0px rgba(0, 0, 0, 0.1);
+
+  /* === Spacing === */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+}
+
+/* ================================
+   Base Reset & Global Styles
+   ================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* Crisp pixel rendering */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dark);
+  background-color: var(--bg-app);
+  /* Disable font smoothing for pixel-crisp text */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+}
+
+#root {
+  height: 100%;
+}
+
+/* ================================
+   Pixel Art Scrollbar
+   ================================ */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream-dark);
+  border-left: var(--pixel-border) var(--border-panel);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brown-medium);
+  border: var(--pixel-border) var(--brown-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brown-light);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--cream-dark);
+}
+
+/* ================================
+   Selection - Pixel style
+   ================================ */
+::selection {
+  background: var(--blue-bright);
+  color: var(--text-dark);
+}
+
+/* ================================
+   Pixel Art Animations
+   ================================ */
+@keyframes pixelBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes pixelPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 var(--green-medium);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(88, 184, 104, 0.3);
+  }
+}
+
+@keyframes pixelSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pixelFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pixelBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Retro scanline effect (subtle) */
+@keyframes scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* ================================
+   Utility Classes
+   ================================ */
+.hidden {
+  display: none !important;
+}
+
+.pixel-text {
+  font-family: var(--font-pixel);
+  letter-spacing: 1px;
+}
+
+.pixel-border {
+  border: var(--pixel-border) var(--border-dark);
+}
+
+.pixel-panel {
+  background: var(--bg-panel);
+  border: var(--pixel-border-thick) var(--border-dark);
+  box-shadow: var(--pixel-shadow);
+}

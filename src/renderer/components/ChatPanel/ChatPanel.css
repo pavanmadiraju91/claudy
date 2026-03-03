@@ -1,0 +1,230 @@
+/**
+ * Chat Panel - RPG Dialog Box Style
+ * Like a cozy in-game message window
+ */
+
+/* ================================
+   Chat Panel Container
+   ================================ */
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--cream);
+  border-left: var(--pixel-border-thick) var(--brown-dark);
+  /* Inner panel texture */
+  background-image:
+    linear-gradient(
+      to bottom,
+      var(--cream-light) 0%,
+      var(--cream) 50%,
+      var(--cream-dark) 100%
+    );
+}
+
+/* ================================
+   Chat Header - Wood Panel Style
+   ================================ */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--brown-light);
+  border-bottom: var(--pixel-border-thick) var(--brown-dark);
+  /* Pixel depth effect */
+  box-shadow:
+    inset 0 2px 0 var(--brown-pale),
+    inset 0 -2px 0 var(--brown-medium);
+}
+
+.chat-title {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--brown-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 0 var(--brown-pale);
+}
+
+/* ================================
+   Messages Area - Scroll Container
+   ================================ */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--cream);
+  /* Subtle paper texture */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 23px,
+      rgba(0,0,0,0.02) 23px,
+      rgba(0,0,0,0.02) 24px
+    );
+}
+
+/* Custom scrollbar for chat */
+.chat-messages::-webkit-scrollbar {
+  width: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: var(--cream-dark);
+  border-left: var(--pixel-border) var(--border-panel);
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: var(--brown-medium);
+  border: 1px solid var(--brown-dark);
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--brown-light);
+}
+
+/* ================================
+   Empty State
+   ================================ */
+.chat-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-medium);
+  padding: 20px;
+}
+
+.chat-empty p {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 2;
+  margin: 4px 0;
+}
+
+.chat-hint {
+  color: var(--text-light) !important;
+  opacity: 0.7;
+}
+
+.chat-empty-title {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--brown-dark);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 8px 16px;
+  background: var(--brown-light);
+  border: var(--pixel-border) var(--brown-dark);
+  margin-bottom: 24px;
+  /* Pixel depth effect */
+  box-shadow:
+    inset 0 2px 0 var(--brown-pale),
+    inset 0 -2px 0 var(--brown-medium),
+    3px 3px 0 rgba(0,0,0,0.15);
+}
+
+/* Decorative pixel art dots */
+.chat-empty::before {
+  content: '...';
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  color: var(--brown-light);
+  letter-spacing: 8px;
+  margin-bottom: 16px;
+  animation: pixelBlink 1s steps(1) infinite;
+}
+
+/* ================================
+   Typing Indicator - Pixel dots animation
+   ================================ */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 14px;
+  background: var(--white);
+  border: var(--pixel-border) var(--brown-dark);
+  margin-right: 20px;
+  width: fit-content;
+  /* Pixel depth */
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    3px 3px 0 rgba(0,0,0,0.15);
+  animation: pixelSlideIn 0.2s ease;
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--brown-medium);
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    background: var(--brown-light);
+  }
+  30% {
+    transform: translateY(-6px);
+    background: var(--brown-dark);
+  }
+}
+
+/* Stop button in typing indicator */
+.stop-button {
+  margin-left: 12px;
+  padding: 4px 10px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--white);
+  background: var(--brown-medium);
+  border: var(--pixel-border) var(--brown-dark);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  /* Pixel depth effect */
+  box-shadow:
+    inset 0 2px 0 var(--brown-light),
+    inset 0 -2px 0 var(--brown-dark),
+    2px 2px 0 rgba(0,0,0,0.2);
+  transition: all 0.1s ease;
+}
+
+.stop-button:hover {
+  background: #c44;
+  border-color: #922;
+  box-shadow:
+    inset 0 2px 0 #d66,
+    inset 0 -2px 0 #922,
+    2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.stop-button:active {
+  transform: translate(1px, 1px);
+  box-shadow:
+    inset 0 2px 0 #922,
+    inset 0 -2px 0 #d66,
+    1px 1px 0 rgba(0,0,0,0.2);
+}

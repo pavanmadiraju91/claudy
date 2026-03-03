@@ -1,0 +1,79 @@
+/**
+ * Mode Selector - 16-bit RPG Button Style
+ * One-click activation button (not a toggle)
+ */
+
+/* Plan mode button - pixel button style */
+.plan-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--cream);
+  border: var(--pixel-border) var(--brown-dark);
+  color: var(--text-dark);
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  /* Pixel button depth */
+  box-shadow:
+    inset -2px -2px 0 var(--cream-dark),
+    inset 2px 2px 0 var(--white),
+    2px 2px 0 rgba(0,0,0,0.15);
+}
+
+.plan-mode-btn:hover:not(:disabled) {
+  background: var(--green-light);
+  border-color: var(--green-dark);
+  color: var(--green-dark);
+}
+
+.plan-mode-btn:active:not(:disabled) {
+  box-shadow:
+    inset 2px 2px 0 var(--cream-dark),
+    inset -2px -2px 0 var(--white);
+  transform: translate(1px, 1px);
+}
+
+/* Active state - plan mode is ON (green, disabled) */
+.plan-mode-btn.active {
+  background: var(--green-light);
+  border-color: var(--green-dark);
+  color: var(--green-dark);
+  cursor: default;
+  box-shadow:
+    inset 2px 2px 0 var(--green-medium),
+    inset -2px -2px 0 rgba(255,255,255,0.3);
+}
+
+/* Disabled state */
+.plan-mode-btn:disabled {
+  opacity: 0.9;
+}
+
+/* Plan icon */
+.plan-icon {
+  font-size: 10px;
+  line-height: 1;
+}
+
+.plan-label {
+  letter-spacing: 0.5px;
+}
+
+/* Pulsing indicator when active */
+.plan-mode-btn.active .plan-icon {
+  animation: planPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes planPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}

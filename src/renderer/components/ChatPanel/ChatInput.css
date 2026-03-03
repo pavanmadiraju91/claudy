@@ -1,0 +1,157 @@
+/**
+ * Chat Input - RPG Text Box Style
+ * Like the text input in a retro game menu
+ */
+
+.chat-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--cream-dark);
+  border-top: var(--pixel-border-thick) var(--brown-dark);
+  /* Inner depth effect */
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.chat-input {
+  width: 100%;
+  padding: 12px;
+  background: var(--white);
+  border: var(--pixel-border) var(--brown-dark);
+  color: var(--text-dark);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+  resize: none;
+  outline: none;
+  transition: all 0.1s ease;
+  /* Pixel inset effect */
+  box-shadow:
+    inset 2px 2px 0 var(--cream-dark),
+    inset -2px -2px 0 var(--cream-light);
+}
+
+.chat-input::placeholder {
+  color: var(--text-light);
+  font-style: italic;
+}
+
+.chat-input:focus {
+  background: var(--off-white);
+  border-color: var(--blue-medium);
+  box-shadow:
+    inset 2px 2px 0 var(--blue-light),
+    inset -2px -2px 0 var(--cream-light),
+    0 0 0 2px rgba(107, 142, 184, 0.2);
+}
+
+/* Actions row - status and send button */
+.chat-input-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Plan mode status badge */
+.mode-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  background: var(--gray-pale);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  user-select: none;
+  transition: all 0.1s ease;
+}
+
+/* Clickable state - when plan mode is OFF */
+.mode-status.clickable {
+  cursor: pointer;
+  border: 1px solid var(--gray-light);
+}
+
+.mode-status.clickable:hover {
+  background: var(--green-light);
+  border-color: var(--green-medium);
+  color: var(--green-dark);
+}
+
+.mode-status.clickable:hover .mode-dot {
+  background: var(--green-dark);
+}
+
+/* Active state - plan mode ON (non-interactive badge) */
+.mode-status.active {
+  background: var(--green-light);
+  color: var(--green-dark);
+  pointer-events: none;
+  border: none;
+}
+
+.mode-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gray-light);
+  transition: background 0.1s ease;
+}
+
+.mode-status.active .mode-dot {
+  background: var(--green-dark);
+  animation: modePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes modePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.mode-label {
+  white-space: nowrap;
+}
+
+/* Send button - pixel button style */
+.chat-send-button {
+  padding: 10px 20px;
+  background: var(--brown-medium);
+  border: var(--pixel-border) var(--brown-dark);
+  color: var(--white);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  /* Pixel button depth */
+  box-shadow:
+    inset -2px -2px 0 var(--brown-dark),
+    inset 2px 2px 0 var(--brown-light),
+    2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.chat-send-button:hover:not(:disabled) {
+  background: var(--brown-light);
+}
+
+.chat-send-button:active:not(:disabled) {
+  box-shadow:
+    inset 2px 2px 0 var(--brown-dark),
+    inset -2px -2px 0 var(--brown-light);
+  transform: translate(1px, 1px);
+}
+
+.chat-send-button:disabled {
+  background: var(--gray-light);
+  border-color: var(--gray-medium);
+  color: var(--gray-medium);
+  cursor: not-allowed;
+  box-shadow:
+    inset -2px -2px 0 var(--gray-medium),
+    inset 2px 2px 0 var(--gray-pale);
+}
