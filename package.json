@@ -44,13 +44,30 @@
   "build": {
     "appId": "com.claudy.terminal",
     "productName": "Claudy",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
     "mac": {
-      "category": "public.app-category.developer-tools"
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns",
+      "target": ["dmg"]
+    },
+    "dmg": {
+      "artifactName": "${productName}-${version}.dmg",
+      "contents": [
+        { "x": 130, "y": 220 },
+        { "x": 410, "y": 220, "type": "link", "path": "/Applications" }
+      ]
     },
     "files": [
       "dist/**/*",
       "public/**/*",
       "node_modules/**/*"
+    ],
+    "asarUnpack": [
+      "node_modules/node-pty/**/*",
+      "node_modules/fsevents/**/*"
     ]
   }
 }

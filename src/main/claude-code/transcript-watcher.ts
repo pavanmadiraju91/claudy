@@ -82,6 +82,7 @@ function reinitializeWatcher(): void {
     awaitWriteFinish: { stabilityThreshold: 50, pollInterval: 20 },
     usePolling: true,
     interval: 100,
+    ignorePermissionErrors: true,
   });
 
   // Re-attach event handlers
@@ -190,6 +191,7 @@ export function startTranscriptWatcher(window: BrowserWindow, cwd?: string): voi
     awaitWriteFinish: { stabilityThreshold: 50, pollInterval: 20 },
     usePolling: true,
     interval: 100,
+    ignorePermissionErrors: true,
   });
 
   // Schedule fallback check 2 seconds after start to catch files created during trust flow
