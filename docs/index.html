@@ -23,17 +23,20 @@
 
     <style>
         :root {
-            --teal-dark: #4A6B5D;
+            --teal: #4A5B5E;
             --teal-light: #5B7B6D;
             --teal-lighter: #6B8B7D;
-            --brown-dark: #6B4423;
-            --brown-light: #8B5A2B;
-            --brown-border: #5A3A1D;
-            --cream: #F5E6D3;
+            --copper: #A67C52;
+            --copper-dark: #8B6642;
+            --brown: #6B4423;
+            --brown-dark: #5A3A1D;
+            --cream: #E8DCC8;
             --cream-light: #FFF8F0;
-            --blue-accent: #6B8BA4;
+            --amber: #D4A84B;
+            --blue: #6B8FA3;
             --blue-light: #8BABB4;
-            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow: rgba(0, 0, 0, 0.4);
+            --glow-teal: rgba(74, 107, 93, 0.4);
         }
 
         * {
@@ -48,324 +51,524 @@
 
         body {
             font-family: 'VT323', monospace;
-            background: linear-gradient(180deg, var(--teal-dark) 0%, var(--teal-light) 50%, var(--teal-lighter) 100%);
+            background: linear-gradient(180deg,
+                #1a2a25 0%,
+                var(--teal) 30%,
+                var(--teal-light) 70%,
+                #1a2a25 100%
+            );
             min-height: 100vh;
             color: var(--cream);
             font-size: 20px;
             line-height: 1.4;
+            overflow-x: hidden;
         }
 
-        /* Pixel-art border frame */
-        .frame {
+        /* ============================================
+           PIXEL PARTICLES CANVAS
+           ============================================ */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ============================================
+           PARALLAX BACKGROUND LAYERS
+           ============================================ */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .stars-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(2px 2px at 10% 20%, var(--cream) 50%, transparent 50%),
+                radial-gradient(2px 2px at 30% 40%, var(--cream) 50%, transparent 50%),
+                radial-gradient(2px 2px at 50% 10%, var(--cream) 50%, transparent 50%),
+                radial-gradient(2px 2px at 70% 60%, var(--cream) 50%, transparent 50%),
+                radial-gradient(2px 2px at 90% 30%, var(--cream) 50%, transparent 50%),
+                radial-gradient(2px 2px at 15% 70%, var(--cream) 50%, transparent 50%),
+                radial-gradient(2px 2px at 45% 85%, var(--cream) 50%, transparent 50%),
+                radial-gradient(2px 2px at 85% 80%, var(--cream) 50%, transparent 50%),
+                radial-gradient(3px 3px at 25% 55%, var(--amber) 50%, transparent 50%),
+                radial-gradient(3px 3px at 65% 25%, var(--amber) 50%, transparent 50%),
+                radial-gradient(3px 3px at 80% 90%, var(--amber) 50%, transparent 50%);
+            opacity: 0.3;
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.4; }
+        }
+
+        .crosshatch-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 20px,
+                    rgba(107, 139, 125, 0.03) 20px,
+                    rgba(107, 139, 125, 0.03) 21px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 20px,
+                    rgba(107, 139, 125, 0.03) 20px,
+                    rgba(107, 139, 125, 0.03) 21px
+                );
+            opacity: 0.5;
+        }
+
+        /* ============================================
+           CRT MONITOR EFFECT
+           ============================================ */
+        .crt-monitor {
             position: relative;
-            background: var(--brown-dark);
-            border: 4px solid var(--brown-border);
-            border-radius: 8px;
+            background: linear-gradient(145deg, var(--copper) 0%, var(--copper-dark) 50%, var(--brown) 100%);
+            border-radius: 30px;
+            padding: 30px;
             box-shadow:
-                inset 2px 2px 0 var(--brown-light),
-                inset -2px -2px 0 var(--brown-border),
-                4px 4px 0 var(--shadow);
-            padding: 20px;
+                0 20px 60px var(--shadow),
+                inset 0 2px 0 rgba(255,255,255,0.1),
+                inset 0 -2px 0 rgba(0,0,0,0.3);
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .frame::before {
+        .crt-monitor::before {
             content: '';
             position: absolute;
-            top: 4px;
-            left: 4px;
-            right: 4px;
-            bottom: 4px;
-            border: 2px solid var(--brown-light);
-            border-radius: 4px;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 3px solid var(--brown-dark);
+            border-radius: 22px;
             pointer-events: none;
         }
 
-        /* Header */
-        header {
+        /* CRT bezel screws */
+        .crt-monitor::after {
+            content: '● ● ● ●';
+            position: absolute;
+            bottom: 8px;
+            right: 20px;
+            font-size: 8px;
+            color: var(--brown-dark);
+            letter-spacing: 6px;
+        }
+
+        .crt-screen {
+            position: relative;
+            background: linear-gradient(180deg, #0a1510 0%, #152820 50%, #0a1510 100%);
+            border-radius: 20px;
+            padding: 60px 40px;
+            overflow: hidden;
+            box-shadow:
+                inset 0 0 100px rgba(0,0,0,0.7),
+                0 0 30px var(--glow-teal);
+        }
+
+        /* Scanlines */
+        .crt-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                rgba(0, 0, 0, 0.2) 1px,
+                transparent 2px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Screen curvature vignette */
+        .crt-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 40%,
+                rgba(0, 0, 0, 0.5) 100%
+            );
+            pointer-events: none;
+            z-index: 9;
+        }
+
+        .crt-content {
+            position: relative;
+            z-index: 5;
             text-align: center;
-            padding: 60px 20px 40px;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            padding: 80px 20px 60px;
+            position: relative;
+            z-index: 2;
         }
 
         .logo {
             font-family: 'Press Start 2P', cursive;
-            font-size: clamp(24px, 6vw, 48px);
+            font-size: clamp(28px, 7vw, 56px);
             color: var(--cream-light);
             text-shadow:
-                3px 3px 0 var(--brown-dark),
-                -1px -1px 0 var(--teal-dark);
-            letter-spacing: 4px;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
+                4px 4px 0 var(--brown),
+                -2px -2px 0 var(--teal),
+                0 0 30px var(--glow-teal);
+            letter-spacing: 6px;
+            margin-bottom: 12px;
+            animation: glow-pulse 3s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+        @keyframes glow-pulse {
+            0%, 100% { text-shadow: 4px 4px 0 var(--brown), -2px -2px 0 var(--teal), 0 0 30px var(--glow-teal); }
+            50% { text-shadow: 4px 4px 0 var(--brown), -2px -2px 0 var(--teal), 0 0 50px var(--glow-teal), 0 0 80px var(--glow-teal); }
         }
 
-        .tagline {
-            font-size: 24px;
-            color: var(--cream);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Hero Section */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            padding: 40px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .hero-icon {
-            width: 180px;
-            height: 180px;
-            image-rendering: pixelated;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px var(--shadow);
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.02); }
-        }
-
-        .hero-text {
-            text-align: center;
-            max-width: 700px;
-        }
-
-        .hero-text h2 {
+        .subtitle {
             font-family: 'Press Start 2P', cursive;
-            font-size: clamp(14px, 3vw, 20px);
-            color: var(--cream-light);
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
-
-        .hero-text p {
-            font-size: 22px;
-            color: var(--cream);
+            font-size: clamp(8px, 2vw, 12px);
+            color: var(--blue-light);
+            letter-spacing: 4px;
+            margin-bottom: 40px;
             opacity: 0.9;
         }
 
-        /* Download Button */
-        .download-section {
-            text-align: center;
-            padding: 40px 20px;
+        /* ============================================
+           ANIMATED MASCOT
+           ============================================ */
+        .mascot-container {
+            margin: 30px auto;
+            position: relative;
+            width: 160px;
+            height: 160px;
         }
 
+        .mascot {
+            width: 160px;
+            height: 160px;
+            image-rendering: pixelated;
+            border-radius: 20px;
+            box-shadow:
+                0 10px 40px var(--shadow),
+                0 0 60px var(--glow-teal);
+            animation: mascot-idle 2s ease-in-out infinite;
+        }
+
+        @keyframes mascot-idle {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-12px) scale(1.03);
+            }
+        }
+
+        /* Mascot glow ring */
+        .mascot-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--glow-teal) 0%, transparent 70%);
+            animation: glow-ring 3s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes glow-ring {
+            0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .tagline {
+            font-size: 26px;
+            color: var(--cream);
+            max-width: 500px;
+            margin: 30px auto;
+            line-height: 1.5;
+        }
+
+        .tagline em {
+            color: var(--amber);
+            font-style: normal;
+        }
+
+        /* ============================================
+           DOWNLOAD BUTTON (RETRO STYLE)
+           ============================================ */
         .download-btn {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             font-family: 'Press Start 2P', cursive;
-            font-size: clamp(12px, 2.5vw, 16px);
+            font-size: clamp(10px, 2.5vw, 14px);
             color: var(--cream-light);
-            background: linear-gradient(180deg, var(--brown-light) 0%, var(--brown-dark) 100%);
-            border: 4px solid var(--brown-border);
+            background: linear-gradient(180deg, var(--amber) 0%, #B8923A 50%, #9A7830 100%);
+            border: 4px solid var(--brown);
             border-radius: 8px;
-            padding: 20px 40px;
+            padding: 20px 36px;
             text-decoration: none;
-            box-shadow:
-                inset 2px 2px 0 rgba(255,255,255,0.2),
-                inset -2px -2px 0 rgba(0,0,0,0.2),
-                4px 4px 0 var(--shadow);
-            transition: all 0.15s ease;
-            cursor: pointer;
-        }
-
-        .download-btn:hover {
-            transform: translate(-2px, -2px);
             box-shadow:
                 inset 2px 2px 0 rgba(255,255,255,0.3),
                 inset -2px -2px 0 rgba(0,0,0,0.2),
-                6px 6px 0 var(--shadow);
+                0 6px 0 var(--brown-dark),
+                0 8px 20px var(--shadow);
+            transition: all 0.1s ease;
+            cursor: pointer;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .download-btn::before {
+            content: '▶';
+            font-size: 16px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                inset 2px 2px 0 rgba(255,255,255,0.4),
+                inset -2px -2px 0 rgba(0,0,0,0.2),
+                0 8px 0 var(--brown-dark),
+                0 12px 30px var(--shadow);
         }
 
         .download-btn:active {
-            transform: translate(2px, 2px);
+            transform: translateY(4px);
             box-shadow:
                 inset -2px -2px 0 rgba(255,255,255,0.2),
                 inset 2px 2px 0 rgba(0,0,0,0.2),
-                2px 2px 0 var(--shadow);
+                0 2px 0 var(--brown-dark),
+                0 4px 10px var(--shadow);
         }
 
-        .download-icon {
-            font-size: 24px;
+        /* ============================================
+           SCROLL HINT
+           ============================================ */
+        .scroll-hint {
+            margin-top: 50px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            color: var(--blue-light);
+            opacity: 0.7;
+            animation: scroll-bounce 2s ease-in-out infinite;
         }
 
-        .download-info {
-            font-family: 'VT323', monospace;
-            font-size: 18px;
-            color: var(--cream);
-            opacity: 0.8;
-            margin-top: 16px;
+        @keyframes scroll-bounce {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(8px); opacity: 1; }
         }
 
-        /* Screenshots Section */
+        /* ============================================
+           SCREENSHOTS SECTION (GAME SCREENS)
+           ============================================ */
         .screenshots {
-            padding: 60px 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 80px 20px;
+            position: relative;
+            z-index: 2;
         }
 
         .section-title {
             font-family: 'Press Start 2P', cursive;
-            font-size: clamp(14px, 3vw, 20px);
+            font-size: clamp(12px, 3vw, 18px);
             color: var(--cream-light);
             text-align: center;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 0 var(--brown-dark);
+            margin-bottom: 50px;
+            text-shadow: 3px 3px 0 var(--brown);
         }
 
         .screenshot-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .screenshot-card {
-            background: var(--brown-dark);
-            border: 4px solid var(--brown-border);
+        /* Mini CRT frame for screenshots */
+        .game-screen {
+            background: linear-gradient(145deg, var(--copper) 0%, var(--copper-dark) 50%, var(--brown) 100%);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow:
+                0 10px 40px var(--shadow),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-screen:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow:
+                0 20px 60px var(--shadow),
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                0 0 40px var(--glow-teal);
+        }
+
+        .screen-inner {
+            position: relative;
+            background: #0a1510;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow:
-                inset 2px 2px 0 var(--brown-light),
-                6px 6px 0 var(--shadow);
-            transition: transform 0.2s ease;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
         }
 
-        .screenshot-card:hover {
-            transform: translateY(-4px);
+        /* Scanlines on screenshots */
+        .screen-inner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent 0px,
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 2px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 5;
         }
 
-        .screenshot-card img {
+        .game-screen img {
             width: 100%;
             height: auto;
             aspect-ratio: 16 / 10;
             object-fit: cover;
-            border-bottom: 4px solid var(--brown-border);
-            image-rendering: auto;
+            display: block;
         }
 
-        .screenshot-card .placeholder {
-            width: 100%;
-            height: 240px;
-            background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal-light) 100%);
-            display: flex;
+        .screen-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            color: var(--cream-light);
+            text-align: center;
+            padding: 12px 8px 4px;
+            background: linear-gradient(90deg, transparent, var(--brown-dark), transparent);
+        }
+
+        /* ============================================
+           FOOTER (PRESS START)
+           ============================================ */
+        footer {
+            padding: 80px 20px 40px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .final-cta {
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+            border: 4px solid var(--brown);
+            border-radius: 16px;
+            padding: 50px 40px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            box-shadow:
+                inset 0 0 60px rgba(0,0,0,0.3),
+                0 0 40px rgba(74, 107, 93, 0.2);
+        }
+
+        .press-start {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(14px, 4vw, 24px);
+            color: var(--amber);
+            margin-bottom: 30px;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .download-btn-large {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            border-bottom: 4px solid var(--brown-border);
-        }
-
-        .screenshot-card .placeholder-text {
+            gap: 12px;
             font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
-            color: var(--cream);
-            opacity: 0.6;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .screenshot-label {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
+            font-size: clamp(12px, 3vw, 16px);
             color: var(--cream-light);
-            padding: 16px;
-            text-align: center;
-        }
-
-        /* Features Section */
-        .features {
-            padding: 60px 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
-
-        .feature-card {
-            background: rgba(0, 0, 0, 0.2);
-            border: 3px solid var(--brown-dark);
+            background: linear-gradient(180deg, var(--amber) 0%, #B8923A 50%, #9A7830 100%);
+            border: 4px solid var(--brown);
             border-radius: 8px;
-            padding: 24px;
-            text-align: center;
-            transition: all 0.2s ease;
+            padding: 24px 48px;
+            text-decoration: none;
+            box-shadow:
+                inset 2px 2px 0 rgba(255,255,255,0.3),
+                inset -2px -2px 0 rgba(0,0,0,0.2),
+                0 6px 0 var(--brown-dark),
+                0 8px 20px var(--shadow);
+            transition: all 0.1s ease;
+            cursor: pointer;
         }
 
-        .feature-card:hover {
-            background: rgba(0, 0, 0, 0.3);
-            transform: scale(1.02);
+        .download-btn-large:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                inset 2px 2px 0 rgba(255,255,255,0.4),
+                inset -2px -2px 0 rgba(0,0,0,0.2),
+                0 8px 0 var(--brown-dark),
+                0 12px 30px var(--shadow);
         }
 
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 16px;
+        .download-btn-large:active {
+            transform: translateY(4px);
+            box-shadow:
+                inset -2px -2px 0 rgba(255,255,255,0.2),
+                inset 2px 2px 0 rgba(0,0,0,0.2),
+                0 2px 0 var(--brown-dark);
         }
 
-        .feature-title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
-            color: var(--cream-light);
-            margin-bottom: 12px;
-        }
-
-        .feature-desc {
+        .meta {
+            font-family: 'VT323', monospace;
             font-size: 20px;
             color: var(--cream);
-            opacity: 0.9;
-        }
-
-        /* Requirements */
-        .requirements {
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .requirements-box {
-            display: inline-block;
-            background: rgba(0, 0, 0, 0.2);
-            border: 3px solid var(--brown-dark);
-            border-radius: 8px;
-            padding: 20px 40px;
-        }
-
-        .requirements h3 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
-            color: var(--cream-light);
-            margin-bottom: 12px;
-        }
-
-        .requirements p {
-            font-size: 18px;
-            color: var(--cream);
-            opacity: 0.9;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 4px solid var(--brown-dark);
-            margin-top: 40px;
+            opacity: 0.7;
+            margin-top: 20px;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
+            gap: 40px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
         }
 
@@ -374,17 +577,22 @@
             font-size: 10px;
             color: var(--blue-light);
             text-decoration: none;
-            transition: color 0.2s ease;
+            transition: all 0.2s ease;
+            padding: 8px 16px;
+            border: 2px solid transparent;
+            border-radius: 4px;
         }
 
         .footer-links a:hover {
             color: var(--cream-light);
+            border-color: var(--blue);
+            background: rgba(107, 143, 163, 0.1);
         }
 
         .credits {
-            font-size: 16px;
+            font-size: 18px;
             color: var(--cream);
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         .credits a {
@@ -396,55 +604,77 @@
             text-decoration: underline;
         }
 
-        /* Pixel decoration */
-        .pixel-divider {
+        /* ============================================
+           PIXEL DECORATIONS
+           ============================================ */
+        .pixel-border {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            padding: 30px 0;
+            gap: 4px;
+            padding: 40px 0;
         }
 
-        .pixel-dot {
+        .pixel-border span {
             width: 8px;
             height: 8px;
-            background: var(--brown-dark);
-            border-radius: 2px;
+            background: var(--brown);
         }
 
-        .pixel-dot:nth-child(2) {
-            background: var(--brown-light);
+        .pixel-border span:nth-child(odd) {
+            background: var(--copper);
         }
 
-        .pixel-dot:nth-child(3) {
-            background: var(--cream);
+        .pixel-border span:nth-child(3n) {
+            background: var(--amber);
         }
 
-        .pixel-dot:nth-child(4) {
-            background: var(--brown-light);
-        }
-
-        .pixel-dot:nth-child(5) {
-            background: var(--brown-dark);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .hero-icon {
-                width: 140px;
-                height: 140px;
+        /* ============================================
+           RESPONSIVE ADJUSTMENTS
+           ============================================ */
+        @media (max-width: 768px) {
+            .crt-monitor {
+                padding: 20px;
+                border-radius: 20px;
+                margin: 0 10px;
             }
 
-            .download-btn {
+            .crt-screen {
+                padding: 40px 20px;
+                border-radius: 14px;
+            }
+
+            .mascot {
+                width: 120px;
+                height: 120px;
+            }
+
+            .mascot-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .download-btn,
+            .download-btn-large {
                 padding: 16px 24px;
+            }
+
+            .final-cta {
+                padding: 30px 20px;
             }
 
             .footer-links {
                 flex-direction: column;
                 gap: 16px;
             }
+
+            .screenshot-grid {
+                gap: 24px;
+            }
         }
 
-        /* Scanline effect (optional subtle retro feel) */
+        /* ============================================
+           GLOBAL SCANLINE OVERLAY
+           ============================================ */
         body::after {
             content: '';
             position: fixed;
@@ -457,133 +687,230 @@
                 0deg,
                 transparent,
                 transparent 2px,
-                rgba(0, 0, 0, 0.03) 2px,
-                rgba(0, 0, 0, 0.03) 4px
+                rgba(0, 0, 0, 0.02) 2px,
+                rgba(0, 0, 0, 0.02) 4px
             );
             z-index: 9999;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1 class="logo">[CLAUDY]</h1>
-        <p class="tagline">AI Coding Assistant with Pixel-Art Visualization</p>
-    </header>
+    <!-- Pixel Particles Canvas -->
+    <canvas id="particles"></canvas>
 
-    <main>
-        <section class="hero">
-            <img src="assets/icon.png" alt="Claudy mascot - pixel art character" class="hero-icon">
-            <div class="hero-text">
-                <h2>Watch Claude Explore Your Codebase</h2>
-                <p>
-                    Claudy wraps Claude CLI in a beautiful dual-view interface.
-                    Use the terminal like normal, or switch to the RPG view and
-                    watch Claude's character navigate a pixel-art world as it
-                    reads files, runs commands, and writes code.
-                </p>
+    <!-- Parallax Background -->
+    <div class="parallax-bg">
+        <div class="stars-layer"></div>
+        <div class="crosshatch-layer"></div>
+    </div>
+
+    <!-- ============================================
+         HERO: CRT MONITOR FRAME
+         ============================================ -->
+    <section class="hero">
+        <div class="crt-monitor">
+            <div class="crt-screen">
+                <div class="crt-content">
+                    <h1 class="logo">[CLAUDY]</h1>
+                    <p class="subtitle">CLAUDE CLI INTERFACE</p>
+
+                    <div class="mascot-container">
+                        <img src="assets/icon.png" alt="Claudy - pixel art AI mascot" class="mascot">
+                    </div>
+
+                    <p class="tagline">Watch your AI explore a <em>pixel-art world</em> as it codes</p>
+
+                    <a href="https://github.com/pavanmadiraju91/claudy/releases/latest/download/Claudy-1.0.0.dmg"
+                       class="download-btn">
+                        DOWNLOAD NOW
+                    </a>
+
+                    <p class="scroll-hint">▼ SCROLL TO BEGIN YOUR ADVENTURE ▼</p>
+                </div>
             </div>
-        </section>
-
-        <section class="download-section">
-            <a href="https://github.com/pavanmadiraju91/claudy/releases/latest/download/Claudy-1.0.0.dmg"
-               class="download-btn">
-                <span class="download-icon">&#x2B07;</span>
-                Download for macOS
-            </a>
-            <p class="download-info">v1.0.0 &bull; macOS (Apple Silicon) &bull; ~114 MB</p>
-        </section>
-
-        <div class="pixel-divider">
-            <span class="pixel-dot"></span>
-            <span class="pixel-dot"></span>
-            <span class="pixel-dot"></span>
-            <span class="pixel-dot"></span>
-            <span class="pixel-dot"></span>
         </div>
+    </section>
 
-        <section class="screenshots">
-            <h2 class="section-title">&#x25B6; Screenshots</h2>
-            <div class="screenshot-grid">
-                <div class="screenshot-card">
-                    <img src="assets/splash-screen.png" alt="Claudy splash screen with pixel art character">
-                    <div class="screenshot-label">Splash Screen</div>
+    <!-- Pixel Border -->
+    <div class="pixel-border">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- ============================================
+         SCREENSHOTS: GAME SCREENS
+         ============================================ -->
+    <section class="screenshots">
+        <h2 class="section-title">[SELECT YOUR VIEW]</h2>
+        <div class="screenshot-grid">
+            <div class="game-screen">
+                <div class="screen-inner">
+                    <img src="assets/terminal-view.png" alt="Claudy terminal view - full Claude CLI experience">
                 </div>
-                <div class="screenshot-card">
-                    <img src="assets/terminal-view.png" alt="Claudy terminal view with Claude CLI">
-                    <div class="screenshot-label">Terminal View</div>
-                </div>
-                <div class="screenshot-card">
-                    <img src="assets/rpg-view.png" alt="Claudy RPG game view with pixel art world">
-                    <div class="screenshot-label">RPG Game View</div>
-                </div>
+                <div class="screen-label">[TERMINAL]</div>
             </div>
-        </section>
-
-        <div class="pixel-divider">
-            <span class="pixel-dot"></span>
-            <span class="pixel-dot"></span>
-            <span class="pixel-dot"></span>
-            <span class="pixel-dot"></span>
-            <span class="pixel-dot"></span>
+            <div class="game-screen">
+                <div class="screen-inner">
+                    <img src="assets/rpg-view.png" alt="Claudy RPG view - watch Claude explore a pixel world">
+                </div>
+                <div class="screen-label">[RPG VIEW]</div>
+            </div>
+            <div class="game-screen">
+                <div class="screen-inner">
+                    <img src="assets/splash-screen.png" alt="Claudy splash screen - retro game startup">
+                </div>
+                <div class="screen-label">[SPLASH]</div>
+            </div>
         </div>
+    </section>
 
-        <section class="features">
-            <h2 class="section-title">&#x2726; Features</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">&#x1F4BB;</div>
-                    <h3 class="feature-title">Full Terminal</h3>
-                    <p class="feature-desc">
-                        Complete xterm.js terminal with all Claude CLI features.
-                        Search, scroll, copy, and paste just like your normal terminal.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">&#x1F3AE;</div>
-                    <h3 class="feature-title">RPG Visualization</h3>
-                    <p class="feature-desc">
-                        Watch Claude's character move through a pixel-art world.
-                        Tool usage drives character animations and movement.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">&#x1F4AC;</div>
-                    <h3 class="feature-title">Chat Panel</h3>
-                    <p class="feature-desc">
-                        Clean chat interface showing Claude's responses.
-                        Type messages that go directly to the same PTY session.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">&#x26A1;</div>
-                    <h3 class="feature-title">Real-time Sync</h3>
-                    <p class="feature-desc">
-                        Terminal and RPG views share a single PTY.
-                        Everything stays perfectly synchronized.
-                    </p>
-                </div>
-            </div>
-        </section>
+    <!-- Pixel Border -->
+    <div class="pixel-border">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
 
-        <section class="requirements">
-            <div class="requirements-box">
-                <h3>System Requirements</h3>
-                <p>macOS 11+ &bull; Apple Silicon (M1/M2/M3) &bull; Claude CLI installed</p>
-            </div>
-        </section>
-    </main>
-
+    <!-- ============================================
+         FOOTER: PRESS START
+         ============================================ -->
     <footer>
-        <div class="footer-links">
-            <a href="https://github.com/pavanmadiraju91/claudy">GitHub</a>
-            <a href="https://github.com/pavanmadiraju91/claudy/issues">Report Issues</a>
-            <a href="https://github.com/pavanmadiraju91/claudy/releases">All Releases</a>
+        <div class="final-cta">
+            <p class="press-start">PRESS DOWNLOAD</p>
+            <a href="https://github.com/pavanmadiraju91/claudy/releases/latest/download/Claudy-1.0.0.dmg"
+               class="download-btn-large">
+                ████ DOWNLOAD ████
+            </a>
+            <p class="meta">macOS • Apple Silicon • v1.0.0</p>
         </div>
+
+        <nav class="footer-links">
+            <a href="https://github.com/pavanmadiraju91/claudy">GitHub</a>
+            <a href="https://github.com/pavanmadiraju91/claudy/issues">Issues</a>
+            <a href="https://github.com/pavanmadiraju91/claudy/releases">Releases</a>
+        </nav>
+
         <p class="credits">
-            Built with Electron, React, and Godot<br>
-            Powered by <a href="https://claude.ai">Claude</a> by Anthropic
+            Powered by <a href="https://claude.ai">Claude</a>
         </p>
     </footer>
+
+    <!-- ============================================
+         PIXEL PARTICLE SYSTEM
+         ============================================ -->
+    <script>
+        (function() {
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+
+            // Particle colors from app palette
+            const colors = [
+                '#4A5B5E', // teal
+                '#5B7B6D', // teal-light
+                '#A67C52', // copper
+                '#E8DCC8', // cream
+                '#D4A84B', // amber
+            ];
+
+            let particles = [];
+            let mouseX = 0;
+            let mouseY = 0;
+            let lastMouseX = 0;
+            let lastMouseY = 0;
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 4 + 2; // 2-6px pixel squares
+                    this.speedY = -Math.random() * 2 - 0.5; // Float upward
+                    this.speedX = (Math.random() - 0.5) * 1;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.life = 1;
+                    this.decay = Math.random() * 0.02 + 0.01;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.life -= this.decay;
+                }
+
+                draw() {
+                    ctx.globalAlpha = this.life;
+                    ctx.fillStyle = this.color;
+                    // Pixel-perfect square
+                    ctx.fillRect(
+                        Math.floor(this.x),
+                        Math.floor(this.y),
+                        Math.floor(this.size),
+                        Math.floor(this.size)
+                    );
+                    ctx.globalAlpha = 1;
+                }
+            }
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                // Only spawn particles if mouse moved enough
+                const dx = mouseX - lastMouseX;
+                const dy = mouseY - lastMouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist > 10 && particles.length < 100) {
+                    // Spawn 1-3 particles
+                    const count = Math.floor(Math.random() * 3) + 1;
+                    for (let i = 0; i < count; i++) {
+                        particles.push(new Particle(
+                            mouseX + (Math.random() - 0.5) * 20,
+                            mouseY + (Math.random() - 0.5) * 20
+                        ));
+                    }
+                    lastMouseX = mouseX;
+                    lastMouseY = mouseY;
+                }
+            });
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Update and draw particles
+                particles = particles.filter(p => p.life > 0);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            // Parallax scrolling for background layers
+            const starsLayer = document.querySelector('.stars-layer');
+            const crosshatchLayer = document.querySelector('.crosshatch-layer');
+
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                if (starsLayer) {
+                    starsLayer.style.transform = `translateY(${scrollY * 0.1}px)`;
+                }
+                if (crosshatchLayer) {
+                    crosshatchLayer.style.transform = `translateY(${scrollY * 0.05}px)`;
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
-
