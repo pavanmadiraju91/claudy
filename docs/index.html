@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claudy - AI Coding Assistant with Pixel-Art Visualization</title>
+    <meta name="description" content="Claudy is a dual-view Electron app wrapping Claude CLI with Terminal and RPG views. Watch your AI assistant explore a pixel-art world as it codes.">
+    <meta name="theme-color" content="#4A6B5D">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Claudy - AI Coding Assistant">
+    <meta property="og:description" content="Watch Claude explore a pixel-art world as it codes. Terminal + RPG visualization in one app.">
+    <meta property="og:image" content="https://pavanmadiraju91.github.io/claudy/assets/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/icon.png">
+
+    <!-- Google Fonts - Pixel-style fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --teal-dark: #4A6B5D;
+            --teal-light: #5B7B6D;
+            --teal-lighter: #6B8B7D;
+            --brown-dark: #6B4423;
+            --brown-light: #8B5A2B;
+            --brown-border: #5A3A1D;
+            --cream: #F5E6D3;
+            --cream-light: #FFF8F0;
+            --blue-accent: #6B8BA4;
+            --blue-light: #8BABB4;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: linear-gradient(180deg, var(--teal-dark) 0%, var(--teal-light) 50%, var(--teal-lighter) 100%);
+            min-height: 100vh;
+            color: var(--cream);
+            font-size: 20px;
+            line-height: 1.4;
+        }
+
+        /* Pixel-art border frame */
+        .frame {
+            position: relative;
+            background: var(--brown-dark);
+            border: 4px solid var(--brown-border);
+            border-radius: 8px;
+            box-shadow:
+                inset 2px 2px 0 var(--brown-light),
+                inset -2px -2px 0 var(--brown-border),
+                4px 4px 0 var(--shadow);
+            padding: 20px;
+        }
+
+        .frame::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border: 2px solid var(--brown-light);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        .logo {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(24px, 6vw, 48px);
+            color: var(--cream-light);
+            text-shadow:
+                3px 3px 0 var(--brown-dark),
+                -1px -1px 0 var(--teal-dark);
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .tagline {
+            font-size: 24px;
+            color: var(--cream);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-icon {
+            width: 180px;
+            height: 180px;
+            image-rendering: pixelated;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px var(--shadow);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.02); }
+        }
+
+        .hero-text {
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .hero-text h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(14px, 3vw, 20px);
+            color: var(--cream-light);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .hero-text p {
+            font-size: 22px;
+            color: var(--cream);
+            opacity: 0.9;
+        }
+
+        /* Download Button */
+        .download-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(12px, 2.5vw, 16px);
+            color: var(--cream-light);
+            background: linear-gradient(180deg, var(--brown-light) 0%, var(--brown-dark) 100%);
+            border: 4px solid var(--brown-border);
+            border-radius: 8px;
+            padding: 20px 40px;
+            text-decoration: none;
+            box-shadow:
+                inset 2px 2px 0 rgba(255,255,255,0.2),
+                inset -2px -2px 0 rgba(0,0,0,0.2),
+                4px 4px 0 var(--shadow);
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow:
+                inset 2px 2px 0 rgba(255,255,255,0.3),
+                inset -2px -2px 0 rgba(0,0,0,0.2),
+                6px 6px 0 var(--shadow);
+        }
+
+        .download-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow:
+                inset -2px -2px 0 rgba(255,255,255,0.2),
+                inset 2px 2px 0 rgba(0,0,0,0.2),
+                2px 2px 0 var(--shadow);
+        }
+
+        .download-icon {
+            font-size: 24px;
+        }
+
+        .download-info {
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            color: var(--cream);
+            opacity: 0.8;
+            margin-top: 16px;
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            padding: 60px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(14px, 3vw, 20px);
+            color: var(--cream-light);
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 0 var(--brown-dark);
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .screenshot-card {
+            background: var(--brown-dark);
+            border: 4px solid var(--brown-border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow:
+                inset 2px 2px 0 var(--brown-light),
+                6px 6px 0 var(--shadow);
+            transition: transform 0.2s ease;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            border-bottom: 4px solid var(--brown-border);
+            image-rendering: auto;
+        }
+
+        .screenshot-card .placeholder {
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 4px solid var(--brown-border);
+        }
+
+        .screenshot-card .placeholder-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            color: var(--cream);
+            opacity: 0.6;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .screenshot-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            color: var(--cream-light);
+            padding: 16px;
+            text-align: center;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 60px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 3px solid var(--brown-dark);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: scale(1.02);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .feature-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            color: var(--cream-light);
+            margin-bottom: 12px;
+        }
+
+        .feature-desc {
+            font-size: 20px;
+            color: var(--cream);
+            opacity: 0.9;
+        }
+
+        /* Requirements */
+        .requirements {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .requirements-box {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.2);
+            border: 3px solid var(--brown-dark);
+            border-radius: 8px;
+            padding: 20px 40px;
+        }
+
+        .requirements h3 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            color: var(--cream-light);
+            margin-bottom: 12px;
+        }
+
+        .requirements p {
+            font-size: 18px;
+            color: var(--cream);
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 4px solid var(--brown-dark);
+            margin-top: 40px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            color: var(--blue-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--cream-light);
+        }
+
+        .credits {
+            font-size: 16px;
+            color: var(--cream);
+            opacity: 0.7;
+        }
+
+        .credits a {
+            color: var(--blue-light);
+            text-decoration: none;
+        }
+
+        .credits a:hover {
+            text-decoration: underline;
+        }
+
+        /* Pixel decoration */
+        .pixel-divider {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 30px 0;
+        }
+
+        .pixel-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--brown-dark);
+            border-radius: 2px;
+        }
+
+        .pixel-dot:nth-child(2) {
+            background: var(--brown-light);
+        }
+
+        .pixel-dot:nth-child(3) {
+            background: var(--cream);
+        }
+
+        .pixel-dot:nth-child(4) {
+            background: var(--brown-light);
+        }
+
+        .pixel-dot:nth-child(5) {
+            background: var(--brown-dark);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .hero-icon {
+                width: 140px;
+                height: 140px;
+            }
+
+            .download-btn {
+                padding: 16px 24px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+
+        /* Scanline effect (optional subtle retro feel) */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+            );
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="logo">[CLAUDY]</h1>
+        <p class="tagline">AI Coding Assistant with Pixel-Art Visualization</p>
+    </header>
+
+    <main>
+        <section class="hero">
+            <img src="assets/icon.png" alt="Claudy mascot - pixel art character" class="hero-icon">
+            <div class="hero-text">
+                <h2>Watch Claude Explore Your Codebase</h2>
+                <p>
+                    Claudy wraps Claude CLI in a beautiful dual-view interface.
+                    Use the terminal like normal, or switch to the RPG view and
+                    watch Claude's character navigate a pixel-art world as it
+                    reads files, runs commands, and writes code.
+                </p>
+            </div>
+        </section>
+
+        <section class="download-section">
+            <a href="https://github.com/pavanmadiraju91/claudy/releases/latest/download/Claudy-1.0.0.dmg"
+               class="download-btn">
+                <span class="download-icon">&#x2B07;</span>
+                Download for macOS
+            </a>
+            <p class="download-info">v1.0.0 &bull; macOS (Apple Silicon) &bull; ~114 MB</p>
+        </section>
+
+        <div class="pixel-divider">
+            <span class="pixel-dot"></span>
+            <span class="pixel-dot"></span>
+            <span class="pixel-dot"></span>
+            <span class="pixel-dot"></span>
+            <span class="pixel-dot"></span>
+        </div>
+
+        <section class="screenshots">
+            <h2 class="section-title">&#x25B6; Screenshots</h2>
+            <div class="screenshot-grid">
+                <div class="screenshot-card">
+                    <img src="assets/splash-screen.png" alt="Claudy splash screen with pixel art character">
+                    <div class="screenshot-label">Splash Screen</div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="assets/terminal-view.png" alt="Claudy terminal view with Claude CLI">
+                    <div class="screenshot-label">Terminal View</div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="assets/rpg-view.png" alt="Claudy RPG game view with pixel art world">
+                    <div class="screenshot-label">RPG Game View</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="pixel-divider">
+            <span class="pixel-dot"></span>
+            <span class="pixel-dot"></span>
+            <span class="pixel-dot"></span>
+            <span class="pixel-dot"></span>
+            <span class="pixel-dot"></span>
+        </div>
+
+        <section class="features">
+            <h2 class="section-title">&#x2726; Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">&#x1F4BB;</div>
+                    <h3 class="feature-title">Full Terminal</h3>
+                    <p class="feature-desc">
+                        Complete xterm.js terminal with all Claude CLI features.
+                        Search, scroll, copy, and paste just like your normal terminal.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#x1F3AE;</div>
+                    <h3 class="feature-title">RPG Visualization</h3>
+                    <p class="feature-desc">
+                        Watch Claude's character move through a pixel-art world.
+                        Tool usage drives character animations and movement.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#x1F4AC;</div>
+                    <h3 class="feature-title">Chat Panel</h3>
+                    <p class="feature-desc">
+                        Clean chat interface showing Claude's responses.
+                        Type messages that go directly to the same PTY session.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">&#x26A1;</div>
+                    <h3 class="feature-title">Real-time Sync</h3>
+                    <p class="feature-desc">
+                        Terminal and RPG views share a single PTY.
+                        Everything stays perfectly synchronized.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="requirements">
+            <div class="requirements-box">
+                <h3>System Requirements</h3>
+                <p>macOS 11+ &bull; Apple Silicon (M1/M2/M3) &bull; Claude CLI installed</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://github.com/pavanmadiraju91/claudy">GitHub</a>
+            <a href="https://github.com/pavanmadiraju91/claudy/issues">Report Issues</a>
+            <a href="https://github.com/pavanmadiraju91/claudy/releases">All Releases</a>
+        </div>
+        <p class="credits">
+            Built with Electron, React, and Godot<br>
+            Powered by <a href="https://claude.ai">Claude</a> by Anthropic
+        </p>
+    </footer>
+</body>
+</html>
